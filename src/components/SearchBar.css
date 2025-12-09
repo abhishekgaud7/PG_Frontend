@@ -1,0 +1,131 @@
+.search-bar-container {
+    width: 100%;
+}
+
+.search-bar {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    padding: 1.5rem;
+}
+
+.search-bar-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.search-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.search-field label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.search-input,
+.search-select {
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    background: var(--white);
+    color: var(--gray-900);
+    transition: all var(--transition-base);
+}
+
+.search-input:focus,
+.search-select:focus {
+    outline: none;
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-input::placeholder {
+    color: var(--gray-400);
+}
+
+.btn-search {
+    height: fit-content;
+    white-space: nowrap;
+}
+
+.advanced-toggle {
+    background: none;
+    border: none;
+    color: var(--blue-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    margin-top: 0.75rem;
+    transition: color var(--transition-base);
+}
+
+.advanced-toggle:hover {
+    color: var(--blue-hover);
+}
+
+.advanced-filters {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+.advanced-filters-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Simple variant */
+.search-bar-simple {
+    display: flex;
+    gap: 0.75rem;
+    background: var(--white);
+    padding: 0.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.search-bar-simple .search-input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1rem;
+}
+
+.search-bar-simple .search-input:focus {
+    box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .search-bar-main {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn-search {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-bar {
+        padding: 1rem;
+    }
+
+    .search-bar-main {
+        grid-template-columns: 1fr;
+    }
+
+    .advanced-filters-grid {
+        grid-template-columns: 1fr;
+    }
+}

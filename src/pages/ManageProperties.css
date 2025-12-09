@@ -1,0 +1,150 @@
+.manage-properties-page {
+    min-height: 100vh;
+    background: var(--gray-50);
+    padding: 3rem 0;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: var(--gray-600);
+    font-size: 1.125rem;
+}
+
+/* Table View */
+.properties-table-container {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.properties-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.properties-table thead {
+    background: var(--gray-50);
+}
+
+.properties-table th {
+    padding: 1.25rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--gray-200);
+}
+
+.properties-table td {
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.properties-table tbody tr:hover {
+    background: var(--gray-50);
+}
+
+.table-property {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.table-property img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}
+
+.property-name {
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.property-gender {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Card Grid View */
+.properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* No Properties State */
+.no-properties {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.no-properties-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.no-properties h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--gray-800);
+}
+
+.no-properties p {
+    color: var(--gray-600);
+    margin-bottom: 2rem;
+}
+
+/* Responsive */
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: grid;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .properties-grid {
+        grid-template-columns: 1fr;
+    }
+}
