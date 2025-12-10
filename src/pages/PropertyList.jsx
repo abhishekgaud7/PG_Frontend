@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import PropertyCard from '../components/PropertyCard';
-import { mockProperties } from '../utils/mockData';
+import client from '../api/client';
 import './PropertyList.css';
 
 const PropertyList = () => {
@@ -10,10 +10,41 @@ const PropertyList = () => {
     const [properties, setProperties] = useState([]);
     const [filteredProperties, setFilteredProperties] = useState([]);
     const [activeFilters, setActiveFilters] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const fetchProperties = async (filters) => {
+        try {
+            setLoading(true);
+            const params = {};
+            if (filters.city) params.city = filters.city;
+            if (filters.type && filters.type !== 'All') params.type = filters.type;
+            if (filters.gender && filters.gender !== 'Any') params.gender = filters.gender;
+            if (filters.minPrice) params.minPrice = filters.minPrice;
+            if (filters.maxPrice) params.maxPrice = filters.maxPrice;
+
+            const response = await client.get('/properties', { params });
+
+            // Map backend snake_case to frontend camelCase
+            const mappedProperties = response.data.data.map(p => ({
+                ...p,
+                pricePerMonth: p.price_per_month,
+                availableBeds: p.available_beds,
+                createdAt: p.created_at,
+                ownerId: p.owner_id
+            }));
+
+            setProperties(mappedProperties);
+            setFilteredProperties(mappedProperties);
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching properties:', err);
+            setError('Failed to load properties');
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        setProperties(mockProperties);
-
         // Apply URL params as initial filters
         const initialFilters = {
             city: searchParams.get('city') || '',
@@ -22,44 +53,12 @@ const PropertyList = () => {
         };
 
         setActiveFilters(initialFilters);
-        applyFilters(initialFilters);
+        fetchProperties(initialFilters);
     }, [searchParams]);
-
-    const applyFilters = (filters) => {
-        let filtered = [...mockProperties];
-
-        if (filters.city) {
-            filtered = filtered.filter(p =>
-                p.city.toLowerCase().includes(filters.city.toLowerCase())
-            );
-        }
-
-        if (filters.area) {
-            filtered = filtered.filter(p => p.area === filters.area);
-        }
-
-        if (filters.type && filters.type !== 'All') {
-            filtered = filtered.filter(p => p.type === filters.type);
-        }
-
-        if (filters.gender && filters.gender !== 'Any') {
-            filtered = filtered.filter(p => p.gender === filters.gender);
-        }
-
-        if (filters.minPrice) {
-            filtered = filtered.filter(p => p.pricePerMonth >= parseInt(filters.minPrice));
-        }
-
-        if (filters.maxPrice) {
-            filtered = filtered.filter(p => p.pricePerMonth <= parseInt(filters.maxPrice));
-        }
-
-        setFilteredProperties(filtered);
-    };
 
     const handleSearch = (filters) => {
         setActiveFilters(filters);
-        applyFilters(filters);
+        fetchProperties(filters);
     };
 
     const removeFilter = (filterKey) => {
@@ -71,7 +70,7 @@ const PropertyList = () => {
             newFilters[filterKey] = filterKey === 'type' ? 'All' : filterKey === 'gender' ? 'Any' : '';
         }
         setActiveFilters(newFilters);
-        applyFilters(newFilters);
+        fetchProperties(newFilters);
     };
 
     const hasActiveFilters = () => {
@@ -136,6 +135,17 @@ const PropertyList = () => {
                                 <PropertyCard key={property.id} property={property} />
                             ))}
                         </div>
+
+                    ) : loading ? (
+                        <div className="loading-state">
+                            <div className="spinner"></div>
+                            <p>Loading properties...</p>
+                        </div>
+                    ) : error ? (
+                        <div className="error-state">
+                            <p>{error}</p>
+                            <button onClick={() => window.location.reload()} className="btn btn-primary">Retry</button>
+                        </div>
                     ) : (
                         <div className="no-results">
                             <div className="no-results-icon">🔍</div>
@@ -145,7 +155,7 @@ const PropertyList = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

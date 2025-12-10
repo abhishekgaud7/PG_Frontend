@@ -1,17 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { mockBookings } from '../utils/mockData';
+import client from '../api/client';
 import './MyBookings.css';
 
 const MyBookings = () => {
     const { user } = useAuth();
     const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // In real app, fetch bookings for current user
-        setBookings(mockBookings);
-    }, []);
+        const fetchBookings = async () => {
+            try {
+                const response = await client.get('/bookings/my');
+                const mappedBookings = response.data.data.map(b => ({
+                    id: b.id,
+                    status: b.status,
+                    checkInDate: b.check_in_date,
+                    checkOutDate: b.check_out_date,
+                    createdAt: b.created_at,
+                    property: {
+                        ...b.property,
+                        pricePerMonth: b.property.price_per_month,
+                        // Ensure images is an array
+                        images: b.property.images || []
+                    }
+                }));
+                setBookings(mappedBookings);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching bookings:', err);
+                setError('Failed to load bookings');
+                setLoading(false);
+            }
+        };
+
+        if (user) {
+            fetchBookings();
+        }
+    }, [user]);
 
     const getStatusBadgeClass = (status) => {
         switch (status) {
@@ -42,7 +70,17 @@ const MyBookings = () => {
                     <p>View and manage all your booking requests</p>
                 </div>
 
-                {bookings.length > 0 ? (
+                {loading ? (
+                    <div className="loading-state">
+                        <div className="spinner"></div>
+                        <p>Loading your bookings...</p>
+                    </div>
+                ) : error ? (
+                    <div className="error-state">
+                        <p>{error}</p>
+                        <button onClick={() => window.location.reload()} className="btn btn-primary">Retry</button>
+                    </div>
+                ) : bookings.length > 0 ? (
                     <div className="bookings-list">
                         {bookings.map((booking) => (
                             <div key={booking.id} className="booking-card card">

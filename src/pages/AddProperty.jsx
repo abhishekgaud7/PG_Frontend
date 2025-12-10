@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { popularAreasByCity } from '../utils/mockData';
+import client from '../api/client';
 import './AddProperty.css';
 
 const AddProperty = () => {
@@ -10,28 +10,19 @@ const AddProperty = () => {
         type: 'PG',
         gender: 'Any',
         city: '',
-        area: '',
         address: '',
         pricePerMonth: '',
         deposit: '',
         availableBeds: '',
         amenities: [],
-        description: ''
+        description: '',
+        imageUrl: ''
     });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
-    const [availableAreas, setAvailableAreas] = useState([]);
 
     const amenitiesList = ['WiFi', 'Food', 'Laundry', 'AC', 'Hot Water', 'Parking', 'Gym', 'Security', 'Housekeeping', 'TV'];
-
-    // Update available areas when city changes
-    useEffect(() => {
-        if (formData.city && popularAreasByCity[formData.city]) {
-            setAvailableAreas(popularAreasByCity[formData.city]);
-        } else {
-            setAvailableAreas([]);
-            setFormData(prev => ({ ...prev, area: '' }));
-        }
-    }, [formData.city]);
 
     const handleChange = (e) => {
         setFormData({
@@ -49,16 +40,41 @@ const AddProperty = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError(null);
 
-        // Mock property creation
-        console.log('Creating property:', formData);
-        setSuccess(true);
+        try {
+            // Prepare data for API
+            const propertyData = {
+                title: formData.title,
+                type: formData.type,
+                gender: formData.gender,
+                city: formData.city,
+                address: formData.address,
+                pricePerMonth: Number(formData.pricePerMonth),
+                deposit: Number(formData.deposit),
+                availableBeds: Number(formData.availableBeds),
+                amenities: formData.amenities,
+                description: formData.description,
+                // Use the image URL if provided, otherwise use a default or empty array
+                // Ideally backend handles this, but we'll send an array of 1 image
+                images: formData.imageUrl ? [formData.imageUrl] : ['https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800']
+            };
 
-        setTimeout(() => {
-            navigate('/owner/properties');
-        }, 2000);
+            await client.post('/properties', propertyData);
+            setSuccess(true);
+            setLoading(false);
+
+            setTimeout(() => {
+                navigate('/owner/properties');
+            }, 2000);
+        } catch (err) {
+            console.error('Error creating property:', err);
+            setError(err.response?.data?.message || 'Failed to create property');
+            setLoading(false);
+        }
     };
 
     if (success) {
@@ -149,26 +165,21 @@ const AddProperty = () => {
                         </div>
                     </div>
 
-                    {availableAreas.length > 0 && (
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label htmlFor="area" className="form-label">Area *</label>
-                                <select
-                                    id="area"
-                                    name="area"
-                                    value={formData.area}
-                                    onChange={handleChange}
-                                    className="form-select"
-                                    required
-                                >
-                                    <option value="">Select Area</option>
-                                    {availableAreas.map(area => (
-                                        <option key={area} value={area}>{area}</option>
-                                    ))}
-                                </select>
-                            </div>
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="imageUrl" className="form-label">Property Image URL</label>
+                            <input
+                                type="url"
+                                id="imageUrl"
+                                name="imageUrl"
+                                value={formData.imageUrl}
+                                onChange={handleChange}
+                                placeholder="https://example.com/image.jpg"
+                                className="form-input"
+                            />
+                            <small className="form-text text-muted">Leave empty for a default image</small>
                         </div>
-                    )}
+                    </div>
 
                     <div className="form-row">
                         <div className="form-group">

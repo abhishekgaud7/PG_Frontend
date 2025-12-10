@@ -1,56 +1,137 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import client from '../api/client';
+import OTPInput from '../components/OTPInput';
 import './Auth.css';
 
 const Login = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
-    const [formData, setFormData] = useState({
+
+    // Tab state
+    const [activeTab, setActiveTab] = useState('password'); // 'password' or 'otp'
+
+    // Password login state
+    const [passwordForm, setPasswordForm] = useState({
         email: '',
         password: '',
-        role: 'user'
+        rememberMe: false
     });
+
+    // OTP login state
+    const [otpForm, setOtpForm] = useState({
+        phone: ''
+    });
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpExpiresAt, setOtpExpiresAt] = useState(null);
+
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [attemptsRemaining, setAttemptsRemaining] = useState(null);
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
+    // Password login
+    const handlePasswordChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setPasswordForm({
+            ...passwordForm,
+            [name]: type === 'checkbox' ? checked : value
+        });
+    };
+
+    const handlePasswordSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+        setAttemptsRemaining(null);
+
+        try {
+            const response = await client.post('/auth/login', {
+                email: passwordForm.email,
+                password: passwordForm.password
+            });
+
+            const { data } = response.data;
+            login(data, data.token);
+            setLoading(false);
+
+            // Redirect based on role
+            if (data.role === 'owner') {
+                navigate('/owner/dashboard');
+            } else {
+                navigate('/properties');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            const message = err.response?.data?.message || 'Failed to login. Please try again.';
+            const remaining = err.response?.data?.attemptsRemaining;
+
+            setError(message);
+            if (remaining !== undefined) {
+                setAttemptsRemaining(remaining);
+            }
+            setLoading(false);
+        }
+    };
+
+    // OTP login
+    const handleOTPChange = (e) => {
+        setOtpForm({
+            ...otpForm,
             [e.target.name]: e.target.value
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSendOTP = async (e) => {
         e.preventDefault();
         setError('');
         setLoading(true);
 
-        // Mock authentication - replace with real API call
-        setTimeout(() => {
-            if (formData.email && formData.password) {
-                const mockUser = {
-                    id: 1,
-                    name: formData.role === 'owner' ? 'Harsh Kumar' : 'Rahul Singh',
-                    email: formData.email,
-                    role: formData.role
-                };
-                const mockToken = 'mock-jwt-token-' + Date.now();
+        try {
+            const response = await client.post('/auth/send-otp', {
+                phone: otpForm.phone
+            });
 
-                login(mockUser, mockToken);
-                setLoading(false);
+            setOtpSent(true);
+            setOtpExpiresAt(response.data.expiresAt);
+            setLoading(false);
+        } catch (err) {
+            console.error('OTP error:', err);
+            setError(err.response?.data?.message || 'Failed to send OTP. Please try again.');
+            setLoading(false);
+        }
+    };
 
-                // Redirect based on role
-                if (formData.role === 'owner') {
-                    navigate('/owner/dashboard');
-                } else {
-                    navigate('/properties');
-                }
+    const handleOTPComplete = async (code) => {
+        setError('');
+        setLoading(true);
+
+        try {
+            const response = await client.post('/auth/verify-otp', {
+                phone: otpForm.phone,
+                code
+            });
+
+            const { data } = response.data;
+            login(data, data.token);
+            setLoading(false);
+
+            // Redirect based on role
+            if (data.role === 'owner') {
+                navigate('/owner/dashboard');
             } else {
-                setError('Please fill in all fields');
-                setLoading(false);
+                navigate('/properties');
             }
-        }, 1000);
+        } catch (err) {
+            console.error('OTP verification error:', err);
+            setError(err.response?.data?.message || 'Invalid OTP. Please try again.');
+            setLoading(false);
+        }
+    };
+
+    const handleResendOTP = () => {
+        setOtpSent(false);
+        setOtpExpiresAt(null);
     };
 
     return (
@@ -71,67 +152,144 @@ const Login = () => {
                 <div className="auth-form-container">
                     <div className="auth-form-wrapper">
                         <div className="auth-header">
-                            <h1>Welcome to RoomNest</h1>
-                            <p>Login to find your perfect room</p>
+                            <h1>Login to RoomNest</h1>
+                            <p>Choose your preferred login method</p>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="auth-form">
-                            {error && (
-                                <div className="alert alert-error">
-                                    {error}
-                                </div>
-                            )}
-
-                            <div className="form-group">
-                                <label htmlFor="email" className="form-label">Email Address</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="your.email@example.com"
-                                    className="form-input"
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="password" className="form-label">Password</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Enter your password"
-                                    className="form-input"
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="role" className="form-label">Login As</label>
-                                <select
-                                    id="role"
-                                    name="role"
-                                    value={formData.role}
-                                    onChange={handleChange}
-                                    className="form-select"
-                                >
-                                    <option value="user">Tenant / User</option>
-                                    <option value="owner">Property Owner</option>
-                                </select>
-                            </div>
-
+                        {/* Tab Navigation */}
+                        <div className="auth-tabs">
                             <button
-                                type="submit"
-                                className="btn btn-primary btn-lg w-full"
-                                disabled={loading}
+                                type="button"
+                                className={`tab-btn ${activeTab === 'password' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setActiveTab('password');
+                                    setError('');
+                                }}
                             >
-                                {loading ? 'Logging in...' : 'Login'}
+                                <span className="tab-icon">🔒</span>
+                                Password
                             </button>
-                        </form>
+                            <button
+                                type="button"
+                                className={`tab-btn ${activeTab === 'otp' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setActiveTab('otp');
+                                    setError('');
+                                    setOtpSent(false);
+                                }}
+                            >
+                                <span className="tab-icon">📱</span>
+                                OTP Login
+                            </button>
+                        </div>
+
+                        {error && (
+                            <div className="error-message">
+                                {error}
+                                {attemptsRemaining !== null && attemptsRemaining > 0 && (
+                                    <div className="attempts-warning">
+                                        {attemptsRemaining} {attemptsRemaining === 1 ? 'attempt' : 'attempts'} remaining
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* Password Login Tab */}
+                        {activeTab === 'password' && (
+                            <form onSubmit={handlePasswordSubmit} className="auth-form">
+                                <div className="form-group">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={passwordForm.email}
+                                        onChange={handlePasswordChange}
+                                        placeholder="Enter your email"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="password">Password</label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        value={passwordForm.password}
+                                        onChange={handlePasswordChange}
+                                        placeholder="Enter your password"
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-options">
+                                    <label className="checkbox-label">
+                                        <input
+                                            type="checkbox"
+                                            name="rememberMe"
+                                            checked={passwordForm.rememberMe}
+                                            onChange={handlePasswordChange}
+                                        />
+                                        <span>Remember me</span>
+                                    </label>
+                                    {/* <Link to="/forgot-password" className="forgot-link">Forgot Password?</Link> */}
+                                </div>
+
+                                <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                                    {loading ? 'Logging in...' : 'Login'}
+                                </button>
+                            </form>
+                        )}
+
+                        {/* OTP Login Tab */}
+                        {activeTab === 'otp' && (
+                            <div className="auth-form">
+                                {!otpSent ? (
+                                    <form onSubmit={handleSendOTP}>
+                                        <div className="form-group">
+                                            <label htmlFor="phone">Phone Number</label>
+                                            <input
+                                                type="tel"
+                                                id="phone"
+                                                name="phone"
+                                                value={otpForm.phone}
+                                                onChange={handleOTPChange}
+                                                placeholder="+91 XXXXX XXXXX"
+                                                required
+                                            />
+                                            <small className="form-text">Enter your registered phone number</small>
+                                        </div>
+
+                                        <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+                                            {loading ? 'Sending OTP...' : 'Send OTP'}
+                                        </button>
+                                    </form>
+                                ) : (
+                                    <div className="otp-verification">
+                                        <p className="otp-instruction">
+                                            Enter the 6-digit code sent to <strong>{otpForm.phone}</strong>
+                                        </p>
+                                        <OTPInput
+                                            length={6}
+                                            onComplete={handleOTPComplete}
+                                            onResend={handleResendOTP}
+                                            expiresAt={otpExpiresAt}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn-link"
+                                            onClick={() => {
+                                                setOtpSent(false);
+                                                setOtpExpiresAt(null);
+                                            }}
+                                        >
+                                            Change phone number
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         <div className="auth-footer">
                             <p>Don't have an account? <Link to="/register">Register here</Link></p>

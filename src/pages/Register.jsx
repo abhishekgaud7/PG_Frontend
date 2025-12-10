@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import client from '../api/client';
+import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import './Auth.css';
 
 const Register = () => {
@@ -28,36 +30,44 @@ const Register = () => {
         e.preventDefault();
         setError('');
 
-        // Validation
+        // Basic validation
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
             return;
         }
 
-        if (formData.password.length < 6) {
-            setError('Password must be at least 6 characters');
-            return;
-        }
-
         setLoading(true);
 
-        // Mock registration - replace with real API call
-        setTimeout(() => {
-            const mockUser = {
-                id: Date.now(),
+        try {
+            const response = await client.post('/auth/register', {
                 name: formData.name,
                 email: formData.email,
                 phone: formData.phone,
+                password: formData.password,
                 role: formData.role
-            };
-            const mockToken = 'mock-jwt-token-' + Date.now();
+            });
 
-            register(mockUser, mockToken);
+            const { data } = response.data;
+            register(data, data.token);
             setLoading(false);
 
-            // Redirect to login
-            navigate('/login');
-        }, 1000);
+            // Redirect to dashboard/properties based on role
+            // Actually usually register logs you in, so we can redirect to home
+            if (data.role === 'owner') {
+                navigate('/owner/dashboard');
+            } else {
+                navigate('/properties');
+            }
+        } catch (err) {
+            // Handle validation errors from backend
+            const errorData = err.response?.data;
+            if (errorData?.errors && Array.isArray(errorData.errors)) {
+                setError(errorData.errors.join('. '));
+            } else {
+                setError(errorData?.message || 'Failed to register. Please try again.');
+            }
+            setLoading(false);
+        }
     };
 
     return (
@@ -142,6 +152,7 @@ const Register = () => {
                                     className="form-input"
                                     required
                                 />
+                                <PasswordStrengthMeter password={formData.password} />
                             </div>
 
                             <div className="form-group">

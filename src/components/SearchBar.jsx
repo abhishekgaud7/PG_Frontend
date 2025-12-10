@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './SearchBar.css';
-import { popularAreasByCity } from '../utils/mockData';
+
 
 const SearchBar = ({ onSearch, variant = 'full' }) => {
     const [filters, setFilters] = useState({
         city: '',
-        area: '',
         type: 'All',
         gender: 'Any',
         minPrice: '',
@@ -13,17 +12,6 @@ const SearchBar = ({ onSearch, variant = 'full' }) => {
     });
 
     const [showAdvanced, setShowAdvanced] = useState(false);
-    const [availableAreas, setAvailableAreas] = useState([]);
-
-    // Update available areas when city changes
-    useEffect(() => {
-        if (filters.city && popularAreasByCity[filters.city]) {
-            setAvailableAreas(popularAreasByCity[filters.city]);
-        } else {
-            setAvailableAreas([]);
-            setFilters(prev => ({ ...prev, area: '' }));
-        }
-    }, [filters.city]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,7 +31,6 @@ const SearchBar = ({ onSearch, variant = 'full' }) => {
     const handleReset = () => {
         setFilters({
             city: '',
-            area: '',
             type: 'All',
             gender: 'Any',
             minPrice: '',
@@ -52,7 +39,6 @@ const SearchBar = ({ onSearch, variant = 'full' }) => {
         if (onSearch) {
             onSearch({
                 city: '',
-                area: '',
                 type: 'All',
                 gender: 'Any',
                 minPrice: '',
@@ -111,23 +97,7 @@ const SearchBar = ({ onSearch, variant = 'full' }) => {
                         </select>
                     </div>
 
-                    {availableAreas.length > 0 && (
-                        <div className="search-field">
-                            <label htmlFor="area">Popular Area</label>
-                            <select
-                                id="area"
-                                name="area"
-                                value={filters.area}
-                                onChange={handleChange}
-                                className="search-select"
-                            >
-                                <option value="">All Areas</option>
-                                {availableAreas.map(area => (
-                                    <option key={area} value={area}>{area}</option>
-                                ))}
-                            </select>
-                        </div>
-                    )}
+
 
                     <div className="search-field">
                         <label htmlFor="gender">Gender</label>

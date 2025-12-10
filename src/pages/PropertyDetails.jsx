@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { mockProperties } from '../utils/mockData';
+import client from '../api/client';
 import './PropertyDetails.css';
 
 const PropertyDetails = () => {
@@ -14,10 +14,39 @@ const PropertyDetails = () => {
         checkOutDate: ''
     });
     const [bookingSuccess, setBookingSuccess] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const found = mockProperties.find(p => p.id === parseInt(id));
-        setProperty(found);
+        const fetchProperty = async () => {
+            try {
+                const response = await client.get(`/properties/${id}`);
+                const p = response.data.data;
+
+                // Map to camelCase
+                const mappedProperty = {
+                    ...p,
+                    pricePerMonth: p.price_per_month,
+                    availableBeds: p.available_beds,
+                    createdAt: p.created_at,
+                    ownerId: p.owner_id,
+                    // Ensure arrays
+                    images: p.images || [],
+                    amenities: p.amenities || []
+                };
+
+                setProperty(mappedProperty);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching property:', err);
+                setError('Failed to load property details');
+                setLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchProperty();
+        }
     }, [id]);
 
     const handleBookingChange = (e) => {
@@ -27,7 +56,7 @@ const PropertyDetails = () => {
         });
     };
 
-    const handleBookingSubmit = (e) => {
+    const handleBookingSubmit = async (e) => {
         e.preventDefault();
 
         if (!isAuthenticated) {
@@ -35,13 +64,21 @@ const PropertyDetails = () => {
             return;
         }
 
-        // Mock booking creation
-        console.log('Creating booking:', { propertyId: id, ...bookingData });
-        setBookingSuccess(true);
+        try {
+            await client.post('/bookings', {
+                property: parseInt(id),
+                checkInDate: bookingData.checkInDate,
+                checkOutDate: bookingData.checkOutDate
+            });
 
-        setTimeout(() => {
-            navigate('/my-bookings');
-        }, 2000);
+            setBookingSuccess(true);
+            setTimeout(() => {
+                navigate('/my-bookings');
+            }, 2000);
+        } catch (err) {
+            console.error('Booking error:', err);
+            alert(err.response?.data?.message || 'Failed to request booking');
+        }
     };
 
     if (!property) {

@@ -2,15 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import PropertyCard from '../components/PropertyCard';
-import { mockProperties } from '../utils/mockData';
+import client from '../api/client';
 import './Home.css';
 
 const Home = () => {
     const [featuredProperties, setFeaturedProperties] = useState([]);
 
     useEffect(() => {
-        // Get first 3 properties as featured
-        setFeaturedProperties(mockProperties.slice(0, 3));
+        const fetchFeaturedProperties = async () => {
+            try {
+                const response = await client.get('/properties');
+                // Get first 3 properties as featured
+                const mappedProperties = response.data.data.slice(0, 3).map(p => ({
+                    ...p,
+                    pricePerMonth: p.price_per_month,
+                    availableBeds: p.available_beds,
+                    createdAt: p.created_at,
+                    ownerId: p.owner_id
+                }));
+                setFeaturedProperties(mappedProperties);
+            } catch (err) {
+                console.error('Error fetching featured properties:', err);
+            }
+        };
+
+        fetchFeaturedProperties();
     }, []);
 
     const handleSearch = (filters) => {
