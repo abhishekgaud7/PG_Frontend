@@ -140,7 +140,6 @@ const SearchBar = ({ onSearch, variant = 'full' }) => {
                         >
                             <option value="Any">Any</option>
                             <option value="Male">Boys</option>
-                            <option value="Transgender">Transgender</option>
                             <option value="Female">Girls</option>
                         </select>
                     </div>

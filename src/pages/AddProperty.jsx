@@ -129,7 +129,6 @@ const AddProperty = () => {
                                 <option value="Any">Any</option>
                                 <option value="Male">Boys Only</option>
                                 <option value="Female">Girls Only</option>
-                                <option value="Transgender">Transgender Only</option>
                             </select>
                         </div>
                     </div>

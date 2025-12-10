@@ -71,8 +71,8 @@ const PropertyDetails = () => {
                                     <span>📍</span> {property.address}, {property.city}
                                 </p>
                                 <div className="property-meta">
-                                    <span className={`badge badge-${property.gender === 'Male' ? 'primary' : property.gender === 'Female' ? 'error' : property.gender === 'Transgender' ? 'info' : 'secondary'}`}>
-                                        {property.gender === 'Male' ? 'Boys' : property.gender === 'Female' ? 'Girls' : property.gender === 'Transgender' ? 'Transgender' : 'Any'} {property.type}
+                                    <span className={`badge badge-${property.gender === 'Male' ? 'primary' : property.gender === 'Female' ? 'error' : 'secondary'}`}>
+                                        {property.gender === 'Male' ? 'Boys' : property.gender === 'Female' ? 'Girls' : 'Any'} {property.type}
                                     </span>
                                     <span className="beds-info">🛏️ {property.availableBeds} beds available</span>
                                 </div>
@@ -116,7 +116,7 @@ const PropertyDetails = () => {
                                 </div>
                                 <div className="info-item">
                                     <span className="info-label">Gender Preference</span>
-                                    <span className="info-value">{property.gender === 'Male' ? 'Boys Only' : property.gender === 'Female' ? 'Girls Only' : property.gender === 'Transgender' ? 'Transgender Only' : 'Any'}</span>
+                                    <span className="info-value">{property.gender === 'Male' ? 'Boys Only' : property.gender === 'Female' ? 'Girls Only' : 'Any'}</span>
                                 </div>
                                 <div className="info-item">
                                     <span className="info-label">Available Beds</span>

@@ -23,8 +23,8 @@ const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
                 <div className="property-image">
                     <img src={displayImage} alt={title} />
                     <div className="property-badges">
-                        <span className={`badge badge-${gender === 'Male' ? 'primary' : gender === 'Female' ? 'error' : gender === 'Transgender' ? 'info' : 'secondary'}`}>
-                            {gender === 'Male' ? 'Boys' : gender === 'Female' ? 'Girls' : gender === 'Transgender' ? 'Transgender' : 'Any'} {type}
+                        <span className={`badge badge-${gender === 'Male' ? 'primary' : gender === 'Female' ? 'error' : 'secondary'}`}>
+                            {gender === 'Male' ? 'Boys' : gender === 'Female' ? 'Girls' : 'Any'} {type}
                         </span>
                     </div>
                 </div>

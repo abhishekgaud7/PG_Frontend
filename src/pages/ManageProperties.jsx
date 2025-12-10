@@ -67,7 +67,7 @@ const ManageProperties = () => {
                                                     <div>
                                                         <div className="property-name">{property.title}</div>
                                                         <div className="property-gender">
-                                                            {property.gender === 'Male' ? 'Boys' : property.gender === 'Female' ? 'Girls' : property.gender === 'Transgender' ? 'Transgender' : 'Any'}
+                                                            {property.gender === 'Male' ? 'Boys' : property.gender === 'Female' ? 'Girls' : 'Any'}
                                                         </div>
                                                     </div>
                                                 </div>
