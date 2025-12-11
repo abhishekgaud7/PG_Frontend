@@ -140,7 +140,7 @@ const Login = () => {
                 <div className="auth-illustration">
                     <div className="illustration-content">
                         <h2>Welcome Back! 👋</h2>
-                        <p>Login to find your perfect PG or manage your properties</p>
+                        <p>Login to discover your perfect PG accommodation or manage your properties with ease</p>
                         <div className="illustration-graphic">
                             <div className="floating-card card-1">🏠</div>
                             <div className="floating-card card-2">🔑</div>
