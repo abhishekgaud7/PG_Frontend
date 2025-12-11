@@ -94,6 +94,12 @@ const Login = () => {
 
             setOtpSent(true);
             setOtpExpiresAt(response.data.expiresAt);
+
+            // Show OTP code in development mode
+            if (response.data.code) {
+                setError(`🔐 Development Mode: Your OTP is ${response.data.code}`);
+            }
+
             setLoading(false);
         } catch (err) {
             console.error('OTP error:', err);
