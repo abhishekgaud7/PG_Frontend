@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import PropertyCard from '../components/PropertyCard';
+import AdvancedFilters from '../components/AdvancedFilters';
 import client from '../api/client';
 import './PropertyList.css';
 
@@ -9,7 +10,11 @@ const PropertyList = () => {
     const [searchParams] = useSearchParams();
     const [properties, setProperties] = useState([]);
     const [filteredProperties, setFilteredProperties] = useState([]);
-    const [activeFilters, setActiveFilters] = useState({});
+    const [activeFilters, setActiveFilters] = useState({
+        amenities: [],
+        mealType: '',
+        minRating: 0
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -22,6 +27,13 @@ const PropertyList = () => {
             if (filters.gender && filters.gender !== 'Any') params.gender = filters.gender;
             if (filters.minPrice) params.minPrice = filters.minPrice;
             if (filters.maxPrice) params.maxPrice = filters.maxPrice;
+
+            // Advanced filters
+            if (filters.amenities && filters.amenities.length > 0) {
+                params.amenities = filters.amenities.join(',');
+            }
+            if (filters.mealType) params.mealType = filters.mealType;
+            if (filters.minRating && filters.minRating > 0) params.minRating = filters.minRating;
 
             const response = await client.get('/properties', { params });
 
@@ -87,6 +99,10 @@ const PropertyList = () => {
                 <div className="container">
                     <h1>Browse Properties</h1>
                     <SearchBar onSearch={handleSearch} variant="full" />
+                    <AdvancedFilters
+                        onApplyFilters={handleSearch}
+                        initialFilters={activeFilters}
+                    />
                 </div>
             </div>
 

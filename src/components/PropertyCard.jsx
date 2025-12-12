@@ -12,7 +12,9 @@ const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
         pricePerMonth,
         amenities = [],
         images = [],
-        availableBeds
+        availableBeds,
+        averageRating = 0,
+        reviewCount = 0
     } = property;
 
     const [isFavorite, setIsFavorite] = useState(false);
@@ -60,6 +62,12 @@ const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
 
                 <div className="property-card-body">
                     <h3 className="property-title">{title}</h3>
+                    {averageRating > 0 && (
+                        <div className="property-rating">
+                            <span className="rating-stars">⭐ {averageRating.toFixed(1)}</span>
+                            <span className="rating-count">({reviewCount} reviews)</span>
+                        </div>
+                    )}
                     <p className="property-location">
                         <span className="location-icon">📍</span>
                         {city} • {type}
