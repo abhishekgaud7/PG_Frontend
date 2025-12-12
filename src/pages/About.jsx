@@ -74,26 +74,26 @@ const About = () => {
                     <div className="team-grid">
                         <div className="team-member">
                             <div className="member-avatar">
-                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400" alt="CEO" />
+                                <img src="a:\PG\PG_Frontend\happuuuu.jpeg" alt="Founder" />
                             </div>
-                            <h3>Aditya Sharma</h3>
-                            <div className="member-role">Founder & CEO</div>
+                            <h3>Harsh Vishwakarma</h3>
+                            <div className="member-role">Founder</div>
                             <p>Visionary leader passionate about solving housing problems.</p>
                         </div>
                         <div className="team-member">
                             <div className="member-avatar">
-                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400" alt="CTO" />
+                                <img src="a:\PG\PG_Frontend\Abhiiiiiiiiiiiii.jpg" alt="Co-Founder" />
                             </div>
-                            <h3>Priya Patel</h3>
-                            <div className="member-role">Head of Technology</div>
+                            <h3>Abhishek Gaud</h3>
+                            <div className="member-role">Co-Founder</div>
                             <p>Tech enthusiast building scalable solutions.</p>
                         </div>
                         <div className="team-member">
                             <div className="member-avatar">
-                                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400" alt="Operations" />
+                                <img src="a:\PG\PG_Frontend\suhanana.jpeg" alt="Ceo" />
                             </div>
-                            <h3>Rahul Verma</h3>
-                            <div className="member-role">Operations Manager</div>
+                            <h3>Suhani Vishwakarma</h3>
+                            <div className="member-role">Ceo</div>
                             <p>Ensuring smooth operations and customer happiness.</p>
                         </div>
                     </div>
