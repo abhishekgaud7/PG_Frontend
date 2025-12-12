@@ -50,8 +50,11 @@
 
 .nav-link {
     text-decoration: none;
-    color: var(--text-secondary);
-    font-weight: 500;
+    color: #1F2937;
+    /* Dark gray - very visible */
+    font-weight: 600;
+    /* Bolder */
+    font-size: 1rem;
     transition: color var(--transition-base);
 }
 
