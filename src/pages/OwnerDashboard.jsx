@@ -107,6 +107,7 @@ const OwnerDashboard = () => {
 
                 {/* Main Content */}
                 <main className="dashboard-main">
+                    <BackButton />
                     <div className="dashboard-header">
                         <div>
                             <h1>Welcome, {user?.name} 👋</h1>

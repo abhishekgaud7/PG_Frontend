@@ -173,3 +173,21 @@
     background: var(--bg-body);
     border-top: 1px solid var(--border-color);
 }
+
+.property-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating-stars {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.rating-count {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}

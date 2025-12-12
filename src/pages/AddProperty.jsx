@@ -121,6 +121,7 @@ const AddProperty = () => {
     return (
         <div className="add-property-page">
             <div className="container-md">
+                <BackButton />
                 <div className="page-header">
                     <h1>Add New Property</h1>
                     <p>Fill in the details to list your PG or guest house</p>
