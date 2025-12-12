@@ -1,11 +1,12 @@
 .navbar {
-    background: var(--bg-card);
-    box-shadow: var(--shadow-sm);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.08);
+    /* Soft purple glow */
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    /* Increased z-index */
 }
 
 .navbar-content {
@@ -20,8 +21,10 @@
     gap: 0.5rem;
     text-decoration: none;
     font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--blue-primary);
+    font-weight: 800;
+    /* Bolder logo */
+    color: var(--primary);
+    /* Uses new purple */
 }
 
 .navbar-logo .logo-icon {
@@ -30,7 +33,19 @@
 
 .navbar-links {
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 2.5rem;
+    /* Increased gap */
+}
+
+/* Fallback for gap issues */
+.navbar-links>.nav-link {
+    margin: 0 0.5rem;
+}
+
+/* Ensure Logo doesn't shrink */
+.navbar-logo {
+    flex-shrink: 0;
 }
 
 .nav-link {
