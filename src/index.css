@@ -5,24 +5,23 @@
 
 /* CSS Variables - Design Tokens */
 :root {
-  /* Colors - Soft Purple Theme */
-  --primary: #7C3AED;
-  /* Violet-600 */
-  --primary-hover: #6D28D9;
-  /* Violet-700 */
-  --primary-light: #A78BFA;
-  /* Violet-400 */
-  --primary-bg: #F5F3FF;
-  /* Violet-50 */
+  /* Colors - Clean Blue Theme */
+  --primary: #2563EB;
+  /* Clean Blue */
+  --primary-hover: #1D4ED8;
+  /* Darker Blue */
+  --primary-light: #60A5FA;
+  /* Light Blue */
+  --primary-bg: #EFF6FF;
+  /* Very Light Blue */
 
-  /* Retaining variable names for compatibility but mapping to new theme */
+  /* Retaining variable names for compatibility */
   --blue-primary: var(--primary);
   --blue-hover: var(--primary-hover);
   --blue-light: var(--primary-light);
-  --navy-dark: #1E1B4B;
-  /* Dark Indigo */
-  --navy-medium: #312E81;
-  --navy-light: #4338CA;
+  --navy-dark: #1E293B;
+  --navy-medium: #334155;
+  --navy-light: #475569;
 
   /* Accent Colors */
   --accent-yellow: #FBBF24;
