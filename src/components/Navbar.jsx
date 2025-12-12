@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
@@ -8,6 +8,7 @@ const Navbar = () => {
     const { user, isAuthenticated, isOwner, logout } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
@@ -16,6 +17,7 @@ const Navbar = () => {
     const handleLogout = () => {
         logout();
         setMobileMenuOpen(false);
+        navigate('/login');
     };
 
     return (
@@ -46,10 +48,12 @@ const Navbar = () => {
                         </button>
                         {isAuthenticated ? (
                             <>
-                                <div className="user-info">
-                                    <span className="user-avatar">{user?.name?.charAt(0)}</span>
-                                    <span className="user-name">{user?.name}</span>
-                                </div>
+                                <Link to="/profile" className="user-info-link" title="View Profile">
+                                    <div className="user-info">
+                                        <span className="user-avatar">{user?.name?.charAt(0)}</span>
+                                        <span className="user-name">{user?.name}</span>
+                                    </div>
+                                </Link>
                                 <Link
                                     to={isOwner ? "/owner/dashboard" : "/my-bookings"}
                                     className="btn btn-sm btn-secondary"
@@ -100,10 +104,12 @@ const Navbar = () => {
 
                     {isAuthenticated ? (
                         <>
-                            <div className="mobile-user-info">
-                                <span className="user-avatar">{user?.name?.charAt(0)}</span>
-                                <span>{user?.name}</span>
-                            </div>
+                            <Link to="/profile" className="mobile-user-info-link" onClick={() => setMobileMenuOpen(false)}>
+                                <div className="mobile-user-info">
+                                    <span className="user-avatar">{user?.name?.charAt(0)}</span>
+                                    <span>{user?.name}</span>
+                                </div>
+                            </Link>
                             <Link
                                 to={isOwner ? "/owner/dashboard" : "/my-bookings"}
                                 className="mobile-nav-link"
@@ -127,8 +133,7 @@ const Navbar = () => {
                     )}
                 </div>
             )}
-        </div>
-        </nav >
+        </nav>
     );
 };
 
