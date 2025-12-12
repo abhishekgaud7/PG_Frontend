@@ -143,8 +143,12 @@
     .mission-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .about-hero h1 {
         font-size: 2.5rem;
     }
+}
+
+.cofounder-img {
+    object-position: top center;
 }
