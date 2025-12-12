@@ -1,0 +1,31 @@
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-bottom: 1rem;
+}
+
+.back-button:hover {
+    background: var(--bg-input);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateX(-3px);
+}
+
+.back-icon {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.back-label {
+    font-weight: 600;
+}

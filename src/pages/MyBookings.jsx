@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import BackButton from '../components/BackButton';
 import client from '../api/client';
 import './MyBookings.css';
 
@@ -65,6 +66,7 @@ const MyBookings = () => {
     return (
         <div className="my-bookings-page">
             <div className="container">
+                <BackButton />
                 <div className="page-header">
                     <h1>My Bookings</h1>
                     <p>View and manage all your booking requests</p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import BackButton from '../components/BackButton';
 import client from '../api/client';
 import './PropertyDetails.css';
 
@@ -110,6 +111,10 @@ const PropertyDetails = () => {
                     </div>
                 </div>
             )}
+
+            <div className="container" style={{ paddingTop: '1rem' }}>
+                <BackButton />
+            </div>
 
             {/* Gallery Section */}
             <div className="property-hero">
