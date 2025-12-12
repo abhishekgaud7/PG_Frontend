@@ -11,7 +11,10 @@ const PropertyDetails = () => {
     const [property, setProperty] = useState(null);
     const [bookingData, setBookingData] = useState({
         checkInDate: '',
-        checkOutDate: ''
+        checkOutDate: '',
+        govtId: '',
+        emergencyName: '',
+        emergencyPhone: ''
     });
     const [bookingSuccess, setBookingSuccess] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -70,7 +73,11 @@ const PropertyDetails = () => {
             await client.post('/bookings', {
                 property: parseInt(id),
                 checkInDate: bookingData.checkInDate,
-                checkOutDate: bookingData.checkOutDate
+                checkOutDate: bookingData.checkOutDate,
+                // Add new fields (frontend validation ensured they exist)
+                govtId: bookingData.govtId,
+                emergencyName: bookingData.emergencyName,
+                emergencyPhone: bookingData.emergencyPhone
             });
 
             setBookingSuccess(true);
@@ -247,6 +254,7 @@ const PropertyDetails = () => {
                                 </div>
                             ) : (
                                 <form onSubmit={handleBookingSubmit} className="booking-form">
+                                    <div className="section-title-sm mb-2">Dates</div>
                                     <div className="form-group">
                                         <label htmlFor="checkInDate" className="form-label">Check-in Date</label>
                                         <input
@@ -272,6 +280,44 @@ const PropertyDetails = () => {
                                             className="form-input"
                                             required
                                             min={bookingData.checkInDate || new Date().toISOString().split('T')[0]}
+                                        />
+                                    </div>
+
+                                    <div className="section-title-sm mt-4 mb-2">Mandatory Documents</div>
+                                    <div className="form-group">
+                                        <label className="form-label">Govt ID Number (Aadhar/PAN)</label>
+                                        <input
+                                            type="text"
+                                            name="govtId"
+                                            value={bookingData.govtId}
+                                            onChange={handleBookingChange}
+                                            className="form-input"
+                                            required
+                                            placeholder="Enter ID Number"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Emergency Contact Name</label>
+                                        <input
+                                            type="text"
+                                            name="emergencyName"
+                                            value={bookingData.emergencyName}
+                                            onChange={handleBookingChange}
+                                            className="form-input"
+                                            required
+                                            placeholder="Parent/Guardian Name"
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Emergency Contact Phone</label>
+                                        <input
+                                            type="tel"
+                                            name="emergencyPhone"
+                                            value={bookingData.emergencyPhone}
+                                            onChange={handleBookingChange}
+                                            className="form-input"
+                                            required
+                                            placeholder="Parent/Guardian Phone"
                                         />
                                     </div>
 

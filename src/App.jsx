@@ -18,6 +18,7 @@ import AddProperty from './pages/AddProperty';
 import ManageProperties from './pages/ManageProperties';
 import About from './pages/About';
 import Profile from './pages/Profile';
+import Support from './pages/Support';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -54,6 +55,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/support" element={<Support />} />
 
               {/* Protected Routes - Tenant */}
               <Route

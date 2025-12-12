@@ -35,6 +35,7 @@ const Navbar = () => {
                         <Link to="/properties" className="nav-link">Browse</Link>
                         <Link to="/for-owners" className="nav-link">For Owners</Link>
                         <Link to="/about" className="nav-link">About</Link>
+                        <Link to="/support" className="nav-link">Support</Link>
                     </div>
 
                     {/* Desktop Auth Buttons */}
@@ -98,6 +99,9 @@ const Navbar = () => {
                     </Link>
                     <Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
                         About
+                    </Link>
+                    <Link to="/support" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        Support
                     </Link>
 
                     <div className="mobile-divider"></div>
