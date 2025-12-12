@@ -357,13 +357,16 @@ a:hover {
 
 .btn-outline {
   background: transparent;
-  color: var(--white);
-  border: 2px solid var(--white);
+  color: var(--primary);
+  /* Changed from white to primary */
+  border: 2px solid var(--primary);
+  /* Changed from white to primary */
 }
 
 .btn-outline:hover:not(:disabled) {
-  background: var(--white);
-  color: var(--navy-dark);
+  background: var(--primary);
+  /* Changed from white to primary */
+  color: var(--white);
 }
 
 .btn-danger {
