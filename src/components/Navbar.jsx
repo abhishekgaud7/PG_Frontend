@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import './Navbar.css';
 
 const Navbar = () => {
     const { user, isAuthenticated, isOwner, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const toggleMobileMenu = () => {
@@ -35,6 +37,13 @@ const Navbar = () => {
 
                     {/* Desktop Auth Buttons */}
                     <div className="navbar-actions desktop-only">
+                        <button
+                            onClick={toggleTheme}
+                            className="btn btn-sm btn-outline theme-toggle-btn"
+                            title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                        >
+                            {theme === 'light' ? '🌙' : '☀️'}
+                        </button>
                         {isAuthenticated ? (
                             <>
                                 <div className="user-info">
@@ -58,67 +67,68 @@ const Navbar = () => {
                             </>
                         )}
                     </div>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="mobile-menu-btn mobile-only"
-                        onClick={toggleMobileMenu}
-                        aria-label="Toggle menu"
-                    >
-                        <span className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </span>
-                    </button>
                 </div>
 
-                {/* Mobile Menu */}
-                {mobileMenuOpen && (
-                    <div className="mobile-menu slide-down">
-                        <Link to="/properties" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                            Browse
-                        </Link>
-                        <Link to="/for-owners" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                            For Owners
-                        </Link>
-                        <Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                            About
-                        </Link>
-
-                        <div className="mobile-divider"></div>
-
-                        {isAuthenticated ? (
-                            <>
-                                <div className="mobile-user-info">
-                                    <span className="user-avatar">{user?.name?.charAt(0)}</span>
-                                    <span>{user?.name}</span>
-                                </div>
-                                <Link
-                                    to={isOwner ? "/owner/dashboard" : "/my-bookings"}
-                                    className="mobile-nav-link"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    Dashboard
-                                </Link>
-                                <button onClick={handleLogout} className="mobile-nav-link logout-btn">
-                                    Logout
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <Link to="/login" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                                    Login
-                                </Link>
-                                <Link to="/register" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                                    Register
-                                </Link>
-                            </>
-                        )}
-                    </div>
-                )}
+                {/* Mobile Menu Button */}
+                <button
+                    className="mobile-menu-btn mobile-only"
+                    onClick={toggleMobileMenu}
+                    aria-label="Toggle menu"
+                >
+                    <span className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </button>
             </div>
-        </nav>
+
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+                <div className="mobile-menu slide-down">
+                    <Link to="/properties" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        Browse
+                    </Link>
+                    <Link to="/for-owners" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        For Owners
+                    </Link>
+                    <Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        About
+                    </Link>
+
+                    <div className="mobile-divider"></div>
+
+                    {isAuthenticated ? (
+                        <>
+                            <div className="mobile-user-info">
+                                <span className="user-avatar">{user?.name?.charAt(0)}</span>
+                                <span>{user?.name}</span>
+                            </div>
+                            <Link
+                                to={isOwner ? "/owner/dashboard" : "/my-bookings"}
+                                className="mobile-nav-link"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Dashboard
+                            </Link>
+                            <button onClick={handleLogout} className="mobile-nav-link logout-btn">
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                                Login
+                            </Link>
+                            <Link to="/register" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                                Register
+                            </Link>
+                        </>
+                    )}
+                </div>
+            )}
+        </div>
+        </nav >
     );
 };
 

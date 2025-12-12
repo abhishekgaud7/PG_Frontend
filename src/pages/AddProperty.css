@@ -52,6 +52,34 @@
     font-weight: 600;
 }
 
+.image-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.btn-icon-danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 48px;
+    /* Match input height */
+    background-color: var(--white);
+    border: 2px solid var(--error);
+    color: var(--error);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 1.25rem;
+    transition: all var(--transition-base);
+}
+
+.btn-icon-danger:hover {
+    background-color: var(--error);
+    color: var(--white);
+}
+
 .form-actions {
     display: flex;
     gap: 1rem;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './PropertyCard.css';
 
@@ -15,10 +15,39 @@ const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
         availableBeds
     } = property;
 
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        if (favorites.includes(id)) {
+            setIsFavorite(true);
+        }
+    }, [id]);
+
+    const toggleFavorite = (e) => {
+        e.preventDefault(); // Prevent navigation
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        let newFavorites;
+        if (isFavorite) {
+            newFavorites = favorites.filter(favId => favId !== id);
+        } else {
+            newFavorites = [...favorites, id];
+        }
+        localStorage.setItem('favorites', JSON.stringify(newFavorites));
+        setIsFavorite(!isFavorite);
+    };
+
     const displayImage = images[0] || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800';
 
     return (
         <div className="property-card">
+            <button
+                className={`favorite-btn ${isFavorite ? 'active' : ''}`}
+                onClick={toggleFavorite}
+                title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            >
+                {isFavorite ? '❤️' : '🤍'}
+            </button>
             <Link to={`/properties/${id}`} className="property-card-link">
                 <div className="property-image">
                     <img src={displayImage} alt={title} />

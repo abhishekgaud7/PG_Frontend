@@ -16,7 +16,10 @@ const AddProperty = () => {
         availableBeds: '',
         amenities: [],
         description: '',
-        imageUrl: ''
+        amenities: [],
+        description: '',
+        images: [''], // Array of image URLs, start with one empty
+        houseRules: ''
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -40,6 +43,25 @@ const AddProperty = () => {
         }));
     };
 
+    const handleImageChange = (index, value) => {
+        const newImages = [...formData.images];
+        newImages[index] = value;
+        setFormData({ ...formData, images: newImages });
+    };
+
+    const addImageField = () => {
+        if (formData.images.length < 5) {
+            setFormData({ ...formData, images: [...formData.images, ''] });
+        }
+    };
+
+    const removeImageField = (index) => {
+        if (formData.images.length > 1) {
+            const newImages = formData.images.filter((_, i) => i !== index);
+            setFormData({ ...formData, images: newImages });
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -58,9 +80,13 @@ const AddProperty = () => {
                 availableBeds: Number(formData.availableBeds),
                 amenities: formData.amenities,
                 description: formData.description,
-                // Use the image URL if provided, otherwise use a default or empty array
-                // Ideally backend handles this, but we'll send an array of 1 image
-                images: formData.imageUrl ? [formData.imageUrl] : ['https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800']
+                amenities: formData.amenities,
+                description: formData.description,
+                house_rules: formData.houseRules, // Send snake_case if backend expects it, or camelCase. Assuming flexible or snake_case for consistency with amenities.
+                // Filter out empty strings
+                images: formData.images.filter(url => url.trim() !== '').length > 0
+                    ? formData.images.filter(url => url.trim() !== '')
+                    : ['https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800']
             };
 
             await client.post('/properties', propertyData);
@@ -165,20 +191,39 @@ const AddProperty = () => {
                         </div>
                     </div>
 
-                    <div className="form-row">
-                        <div className="form-group">
-                            <label htmlFor="imageUrl" className="form-label">Property Image URL</label>
-                            <input
-                                type="url"
-                                id="imageUrl"
-                                name="imageUrl"
-                                value={formData.imageUrl}
-                                onChange={handleChange}
-                                placeholder="https://example.com/image.jpg"
-                                className="form-input"
-                            />
-                            <small className="form-text text-muted">Leave empty for a default image</small>
-                        </div>
+                    <div className="form-group">
+                        <label className="form-label">Property Images (Max 5)</label>
+                        {formData.images.map((url, index) => (
+                            <div key={index} className="image-input-group">
+                                <input
+                                    type="url"
+                                    value={url}
+                                    onChange={(e) => handleImageChange(index, e.target.value)}
+                                    placeholder="https://example.com/image.jpg"
+                                    className="form-input"
+                                />
+                                {formData.images.length > 1 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => removeImageField(index)}
+                                        className="btn-icon-danger"
+                                        title="Remove image"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        {formData.images.length < 5 && (
+                            <button
+                                type="button"
+                                onClick={addImageField}
+                                className="btn btn-secondary btn-sm mt-2"
+                            >
+                                + Add Another Image
+                            </button>
+                        )}
+                        <small className="form-text text-muted">First image will be the cover image.</small>
                     </div>
 
                     <div className="form-row">
@@ -271,6 +316,19 @@ const AddProperty = () => {
                             className="form-textarea"
                             required
                             rows="5"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="houseRules" className="form-label">House Rules</label>
+                        <textarea
+                            id="houseRules"
+                            name="houseRules"
+                            value={formData.houseRules}
+                            onChange={handleChange}
+                            placeholder="e.g. No smoking, Quiet hours after 10 PM, No pets allowed."
+                            className="form-textarea"
+                            rows="3"
                         />
                     </div>
 

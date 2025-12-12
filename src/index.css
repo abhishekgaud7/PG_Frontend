@@ -9,12 +9,12 @@
   --blue-primary: #3B82F6;
   --blue-hover: #2563EB;
   --blue-light: #60A5FA;
-  
+
   /* Accent Colors */
   --accent-yellow: #FCD34D;
   --accent-green: #10B981;
   --accent-red: #EF4444;
-  
+
   /* Neutral Colors */
   --white: #FFFFFF;
   --gray-50: #F8FAFC;
@@ -27,13 +27,13 @@
   --gray-700: #334155;
   --gray-800: #1E293B;
   --gray-900: #0F172A;
-  
+
   /* Semantic Colors */
   --success: #10B981;
   --warning: #F59E0B;
   --error: #EF4444;
   --info: #3B82F6;
-  
+
   /* Spacing */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
@@ -42,29 +42,54 @@
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
   --spacing-3xl: 4rem;
-  
+
   /* Border Radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-full: 9999px;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  
+
   /* Transitions */
   --transition-fast: 150ms ease-in-out;
   --transition-base: 200ms ease-in-out;
   --transition-slow: 300ms ease-in-out;
-  
+
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   --font-display: 'Outfit', var(--font-sans);
+
+  /* Semantic Variables - Light Mode Default */
+  --bg-body: var(--gray-50);
+  --bg-card: var(--white);
+  --bg-input: var(--white);
+  --text-main: var(--gray-900);
+  --text-secondary: var(--gray-600);
+  --text-muted: var(--gray-400);
+  --border-color: var(--gray-200);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --bg-body: var(--navy-dark);
+  --bg-card: var(--navy-medium);
+  --bg-input: var(--navy-light);
+  --text-main: var(--gray-50);
+  --text-secondary: var(--gray-300);
+  --text-muted: var(--gray-500);
+  --border-color: var(--navy-light);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+
+  /* Update semantic colors for dark mode */
+  --gray-50: #0F172A;
+  /* Invert basic grays if needed, but semantic is better */
 }
 
 /* ===== GLOBAL RESET & BASE STYLES ===== */
@@ -83,19 +108,25 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--gray-50);
-  color: var(--gray-900);
+  background-color: var(--bg-body);
+  color: var(--text-main);
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 /* ===== TYPOGRAPHY ===== */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.2;
-  color: var(--gray-900);
+  color: var(--text-main);
 }
 
 h1 {
@@ -130,7 +161,7 @@ h6 {
 
 p {
   margin-bottom: var(--spacing-md);
-  color: var(--gray-600);
+  color: var(--text-secondary);
 }
 
 a {
@@ -272,7 +303,7 @@ a:hover {
 }
 
 .btn-secondary {
-  background: var(--white);
+  background: var(--bg-card);
   color: var(--blue-primary);
   border: 2px solid var(--blue-primary);
 }
@@ -323,7 +354,7 @@ a:hover {
   display: block;
   font-weight: 600;
   margin-bottom: var(--spacing-sm);
-  color: var(--gray-700);
+  color: var(--text-secondary);
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -336,10 +367,10 @@ a:hover {
   padding: 0.875rem 1rem;
   font-size: 1rem;
   font-family: var(--font-sans);
-  border: 2px solid var(--gray-200);
+  border: 2px solid var(--border-color);
   border-radius: var(--radius-md);
-  background: var(--white);
-  color: var(--gray-900);
+  background: var(--bg-input);
+  color: var(--text-main);
   transition: all var(--transition-base);
 }
 
@@ -369,7 +400,7 @@ a:hover {
 /* ===== CARD STYLES ===== */
 
 .card {
-  background: var(--white);
+  background: var(--bg-card);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
   overflow: hidden;
@@ -387,13 +418,13 @@ a:hover {
 
 .card-header {
   padding: var(--spacing-lg);
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .card-footer {
   padding: var(--spacing-lg);
-  border-top: 1px solid var(--gray-200);
-  background: var(--gray-50);
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-body);
 }
 
 /* ===== BADGE STYLES ===== */
@@ -431,8 +462,8 @@ a:hover {
 }
 
 .badge-secondary {
-  background: var(--gray-200);
-  color: var(--gray-700);
+  background: var(--border-color);
+  color: var(--text-secondary);
 }
 
 /* ===== LOADING SPINNER ===== */
@@ -467,27 +498,28 @@ a:hover {
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.75rem;
   }
-  
+
   h3 {
     font-size: 1.5rem;
   }
-  
+
   .grid-cols-2,
   .grid-cols-3,
   .grid-cols-4 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
-  
+
   .container {
     padding: 0 var(--spacing-md);
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+
   .grid-cols-3,
   .grid-cols-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -501,6 +533,7 @@ a:hover {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -512,6 +545,7 @@ a:hover {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -559,7 +593,7 @@ a:hover {
   z-index: 1;
 }
 
-.gradient-overlay > * {
+.gradient-overlay>* {
   position: relative;
   z-index: 2;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import SplashScreen from './components/SplashScreen';
@@ -15,6 +16,8 @@ import MyBookings from './pages/MyBookings';
 import OwnerDashboard from './pages/OwnerDashboard';
 import AddProperty from './pages/AddProperty';
 import ManageProperties from './pages/ManageProperties';
+import About from './pages/About';
+import Profile from './pages/Profile';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -28,64 +31,77 @@ function App() {
   }
 
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <div className="app">
-          <Navbar />
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/properties" element={<PropertyList />} />
-            <Route path="/properties/:id" element={<PropertyDetails />} />
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <div className="app">
+            <Navbar />
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/properties" element={<PropertyList />} />
+              <Route path="/properties/:id" element={<PropertyDetails />} />
+              <Route path="/about" element={<About />} />
 
-            {/* Protected Routes - Tenant */}
-            <Route
-              path="/my-bookings"
-              element={
-                <ProtectedRoute>
-                  <MyBookings />
-                </ProtectedRoute>
-              }
-            />
+              {/* Protected Routes - General */}
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Protected Routes - Owner */}
-            <Route
-              path="/owner/dashboard"
-              element={
-                <ProtectedRoute requireOwner={true}>
-                  <OwnerDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/owner/properties"
-              element={
-                <ProtectedRoute requireOwner={true}>
-                  <ManageProperties />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/owner/add-property"
-              element={
-                <ProtectedRoute requireOwner={true}>
-                  <AddProperty />
-                </ProtectedRoute>
-              }
-            />
+              {/* Protected Routes - Tenant */}
+              <Route
+                path="/my-bookings"
+                element={
+                  <ProtectedRoute>
+                    <MyBookings />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Placeholder Routes */}
-            <Route path="/for-owners" element={<Home />} />
-            <Route path="/about" element={<Home />} />
+              {/* Protected Routes - Owner */}
+              <Route
+                path="/owner/dashboard"
+                element={
+                  <ProtectedRoute requireOwner={true}>
+                    <OwnerDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/owner/properties"
+                element={
+                  <ProtectedRoute requireOwner={true}>
+                    <ManageProperties />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/owner/add-property"
+                element={
+                  <ProtectedRoute requireOwner={true}>
+                    <AddProperty />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Catch all */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </AuthProvider>
+              {/* Placeholder Routes */}
+              <Route path="/for-owners" element={<Home />} />
+              <Route path="/about" element={<Home />} />
+
+              {/* Catch all */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

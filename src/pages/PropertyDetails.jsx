@@ -16,6 +16,7 @@ const PropertyDetails = () => {
     const [bookingSuccess, setBookingSuccess] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         const fetchProperty = async () => {
@@ -30,6 +31,7 @@ const PropertyDetails = () => {
                     availableBeds: p.available_beds,
                     createdAt: p.created_at,
                     ownerId: p.owner_id,
+                    houseRules: p.house_rules,
                     // Ensure arrays
                     images: p.images || [],
                     amenities: p.amenities || []
@@ -92,9 +94,51 @@ const PropertyDetails = () => {
 
     return (
         <div className="property-details-page">
-            {/* Hero Image */}
+            {/* Image Modal */}
+            {selectedImage && (
+                <div className="image-modal" onClick={() => setSelectedImage(null)}>
+                    <button className="modal-close" onClick={() => setSelectedImage(null)}>×</button>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <img src={selectedImage} alt="Property View" />
+                    </div>
+                </div>
+            )}
+
+            {/* Gallery Section */}
             <div className="property-hero">
-                <img src={property.images[0]} alt={property.title} />
+                <div className="gallery-grid">
+                    {/* Main Image */}
+                    <div
+                        className="gallery-item main-image"
+                        onClick={() => setSelectedImage(property.images[0])}
+                    >
+                        <img src={property.images[0]} alt={property.title} />
+                    </div>
+
+                    {/* Secondary Images (up to 2) */}
+                    {property.images.slice(1, 3).map((img, index) => (
+                        <div
+                            key={index}
+                            className="gallery-item"
+                            onClick={() => setSelectedImage(img)}
+                        >
+                            <img src={img} alt={`View ${index + 2}`} />
+                        </div>
+                    ))}
+
+                    {/* Show "+X more" if more than 3 images, or just empty placeholder if less */}
+                    {property.images.length > 3 && (
+                        <div
+                            className="gallery-item"
+                            onClick={() => setSelectedImage(property.images[3])}
+                        >
+                            <img src={property.images[3]} alt="More" />
+                            <div className="gallery-overlay">
+                                +{property.images.length - 3} Photos
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div className="container">
@@ -138,6 +182,16 @@ const PropertyDetails = () => {
                             <h2>About this property</h2>
                             <p className="property-description">{property.description}</p>
                         </div>
+
+                        {/* House Rules */}
+                        {property.houseRules && (
+                            <div className="property-section">
+                                <h2>House Rules</h2>
+                                <div className="card p-4 bg-gray-50">
+                                    <p style={{ whiteSpace: 'pre-line' }}>{property.houseRules}</p>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Additional Info */}
                         <div className="property-section">
