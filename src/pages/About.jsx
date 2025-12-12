@@ -74,7 +74,7 @@ const About = () => {
                     <div className="team-grid">
                         <div className="team-member">
                             <div className="member-avatar">
-                                <img src="a:\PG\PG_Frontend\happuuuu.jpeg" alt="Founder" />
+                                <img src="/team-harsh.jpeg" alt="Founder" />
                             </div>
                             <h3>Harsh Vishwakarma</h3>
                             <div className="member-role">Founder</div>
@@ -82,7 +82,7 @@ const About = () => {
                         </div>
                         <div className="team-member">
                             <div className="member-avatar">
-                                <img src="a:\PG\PG_Frontend\Abhiiiiiiiiiiiii.jpg" alt="Co-Founder" />
+                                <img src="/team-abhishek.jpg" alt="Co-Founder" />
                             </div>
                             <h3>Abhishek Gaud</h3>
                             <div className="member-role">Co-Founder</div>
@@ -90,7 +90,7 @@ const About = () => {
                         </div>
                         <div className="team-member">
                             <div className="member-avatar">
-                                <img src="a:\PG\PG_Frontend\suhanana.jpeg" alt="Ceo" />
+                                <img src="/team-suhani.jpeg" alt="Ceo" />
                             </div>
                             <h3>Suhani Vishwakarma</h3>
                             <div className="member-role">Ceo</div>
