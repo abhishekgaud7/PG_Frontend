@@ -1,9 +1,8 @@
 .property-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-md);
+    /* Glass card handles background/border/shadow/radius */
     overflow: hidden;
     transition: all var(--transition-base);
+    /* Keep for other props */
     text-decoration: none;
     color: inherit;
     display: flex;
@@ -12,10 +11,8 @@
     position: relative;
 }
 
-.property-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-}
+/* Hover transform handled by framer-motion */
+/* .property-card:hover { transform: translateY(-5px); ... } removed */
 
 .property-card-link {
     text-decoration: none;

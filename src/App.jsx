@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import SplashScreen from './components/SplashScreen';
+import PageTransition from './components/PageTransition';
 
 // Pages
 import Home from './pages/Home';
@@ -19,6 +21,87 @@ import ManageProperties from './pages/ManageProperties';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Support from './pages/Support';
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Public Routes */}
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+        <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
+        <Route path="/properties" element={<PageTransition><PropertyList /></PageTransition>} />
+        <Route path="/properties/:id" element={<PageTransition><PropertyDetails /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+
+        {/* Protected Routes - General */}
+        <Route
+          path="/profile"
+          element={
+            <PageTransition>
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            </PageTransition>
+          }
+        />
+        <Route path="/support" element={<PageTransition><Support /></PageTransition>} />
+
+        {/* Protected Routes - Tenant */}
+        <Route
+          path="/my-bookings"
+          element={
+            <PageTransition>
+              <ProtectedRoute>
+                <MyBookings />
+              </ProtectedRoute>
+            </PageTransition>
+          }
+        />
+
+        {/* Protected Routes - Owner */}
+        <Route
+          path="/owner/dashboard"
+          element={
+            <PageTransition>
+              <ProtectedRoute requireOwner={true}>
+                <OwnerDashboard />
+              </ProtectedRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/owner/properties"
+          element={
+            <PageTransition>
+              <ProtectedRoute requireOwner={true}>
+                <ManageProperties />
+              </ProtectedRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/owner/add-property"
+          element={
+            <PageTransition>
+              <ProtectedRoute requireOwner={true}>
+                <AddProperty />
+              </ProtectedRoute>
+            </PageTransition>
+          }
+        />
+
+        {/* Placeholder Routes */}
+        <Route path="/for-owners" element={<PageTransition><Home /></PageTransition>} />
+
+        {/* Catch all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -37,69 +120,7 @@ function App() {
         <BrowserRouter>
           <div className="app">
             <Navbar />
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/properties" element={<PropertyList />} />
-              <Route path="/properties/:id" element={<PropertyDetails />} />
-              <Route path="/about" element={<About />} />
-
-              {/* Protected Routes - General */}
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/support" element={<Support />} />
-
-              {/* Protected Routes - Tenant */}
-              <Route
-                path="/my-bookings"
-                element={
-                  <ProtectedRoute>
-                    <MyBookings />
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* Protected Routes - Owner */}
-              <Route
-                path="/owner/dashboard"
-                element={
-                  <ProtectedRoute requireOwner={true}>
-                    <OwnerDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/owner/properties"
-                element={
-                  <ProtectedRoute requireOwner={true}>
-                    <ManageProperties />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/owner/add-property"
-                element={
-                  <ProtectedRoute requireOwner={true}>
-                    <AddProperty />
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* Placeholder Routes */}
-              <Route path="/for-owners" element={<Home />} />
-              <Route path="/about" element={<Home />} />
-
-              {/* Catch all */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+            <AnimatedRoutes />
           </div>
         </BrowserRouter>
       </AuthProvider>

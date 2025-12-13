@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import './PropertyCard.css';
 
 const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
@@ -42,7 +43,14 @@ const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
     const displayImage = images[0] || 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800';
 
     return (
-        <div className="property-card">
+        <motion.div
+            className="property-card glass-card"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -8, scale: 1.02 }}
+            transition={{ duration: 0.3 }}
+        >
             <button
                 className={`favorite-btn ${isFavorite ? 'active' : ''}`}
                 onClick={toggleFavorite}
@@ -106,7 +114,7 @@ const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
                     </button>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };
 
