@@ -223,14 +223,20 @@
 .auth-buttons {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
+    /* Better spacing for auth buttons */
 }
 
 .nav-link-login {
     text-decoration: none;
     color: #64748b;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.nav-link-login:hover {
+    color: #0f172a;
 }
 
 .btn-pill-primary {
@@ -242,12 +248,24 @@
     font-weight: 600;
     font-size: 0.95rem;
     box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-    transition: transform 0.2s;
+    transition: transform 0.2s, background 0.2s;
 }
 
 .btn-pill-primary:hover {
     transform: translateY(-1px);
     background: #0284c7;
+}
+
+.logout-btn-desktop {
+    color: #ef4444;
+    /* Red color for logout */
+    opacity: 0.8;
+}
+
+.logout-btn-desktop:hover {
+    background: #fef2f2;
+    color: #dc2626;
+    opacity: 1;
 }
 
 /* Mobile */
