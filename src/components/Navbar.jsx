@@ -94,66 +94,62 @@ const Navbar = () => {
                     <span></span>
                 </span>
             </button>
-        </div>
 
-            {/* Mobile Menu */ }
-    {
-        mobileMenuOpen && (
-            <div className="mobile-menu slide-down">
-                <Link to="/properties" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                    Browse
-                </Link>
-                <Link to="/for-owners" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                    For Owners
-                </Link>
-                <Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                    About
-                </Link>
-                <Link to="/support" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                    Support
-                </Link>
+            {/* Mobile Menu */}
+            {mobileMenuOpen && (
+                <div className="mobile-menu slide-down">
+                    <Link to="/properties" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        Browse
+                    </Link>
+                    <Link to="/for-owners" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        For Owners
+                    </Link>
+                    <Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        About
+                    </Link>
+                    <Link to="/support" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                        Support
+                    </Link>
 
-                <div className="mobile-divider"></div>
+                    <div className="mobile-divider"></div>
 
-                <div className="mobile-divider"></div>
-
-                {isAuthenticated ? (
-                    <>
-                        <Link to="/profile" className="mobile-user-info-link" onClick={() => setMobileMenuOpen(false)}>
-                            <div className="mobile-user-info">
-                                <span className="user-avatar">{user?.name?.charAt(0)}</span>
-                                <span>{user?.name}</span>
-                            </div>
-                        </Link>
-                        <Link
-                            to={isOwner ? "/owner/dashboard" : "/my-bookings"}
-                            className="mobile-nav-link"
-                            onClick={() => setMobileMenuOpen(false)}
-                        >
-                            Dashboard
-                        </Link>
-                        {!isOwner && (
-                            <Link to="/maintenance" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                                Maintenance Support
+                    {isAuthenticated ? (
+                        <>
+                            <Link to="/profile" className="mobile-user-info-link" onClick={() => setMobileMenuOpen(false)}>
+                                <div className="mobile-user-info">
+                                    <span className="user-avatar">{user?.name?.charAt(0)}</span>
+                                    <span>{user?.name}</span>
+                                </div>
                             </Link>
-                        )}
-                        <button onClick={handleLogout} className="mobile-nav-link logout-btn">
-                            Logout
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                            Login
-                        </Link>
-                        <Link to="/register" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                            Register
-                        </Link>
-                    </>
-                )}
-            </div>
-        )
-    }
+                            <Link
+                                to={isOwner ? "/owner/dashboard" : "/my-bookings"}
+                                className="mobile-nav-link"
+                                onClick={() => setMobileMenuOpen(false)}
+                            >
+                                Dashboard
+                            </Link>
+                            {!isOwner && (
+                                <Link to="/maintenance" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                                    Maintenance Support
+                                </Link>
+                            )}
+                            <button onClick={handleLogout} className="mobile-nav-link logout-btn">
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                                Login
+                            </Link>
+                            <Link to="/register" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                                Register
+                            </Link>
+                        </>
+                    )}
+                </div>
+            )
+            }
         </nav >
     );
 };
