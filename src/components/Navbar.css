@@ -1,12 +1,15 @@
 .navbar {
-    background: #FFFFFF;
-    /* Solid white */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid #E5E7EB;
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(to right, #667eea, #764ba2) 1;
+    border-image-slice: 1;
 }
 
 .navbar-content {
@@ -20,22 +23,23 @@
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 800;
-    /* Bolder logo */
-    color: var(--primary);
-    /* Uses new purple */
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
 }
 
 .navbar-logo .logo-icon {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 4px rgba(118, 75, 162, 0.3));
 }
 
 .navbar-links {
     display: flex;
     align-items: center;
     gap: 2.5rem;
-    /* Increased gap */
 }
 
 /* Fallback for gap issues */
@@ -43,23 +47,34 @@
     margin: 0 0.5rem;
 }
 
-/* Ensure Logo doesn't shrink */
-.navbar-logo {
-    flex-shrink: 0;
-}
-
 .nav-link {
     text-decoration: none;
-    color: #1F2937;
-    /* Dark gray - very visible */
-    font-weight: 600;
-    /* Bolder */
-    font-size: 1rem;
-    transition: color var(--transition-base);
+    color: #374151;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: all 0.2s ease;
+    position: relative;
+    padding: 0.25rem 0;
 }
 
 .nav-link:hover {
-    color: var(--blue-primary);
+    color: #764ba2;
+    transform: translateY(-1px);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
 }
 
 .navbar-actions {

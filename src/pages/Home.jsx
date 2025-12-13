@@ -52,16 +52,19 @@ const Home = () => {
                             <p className="hero-subtitle fade-in">
                                 Your one-stop platform for finding PG accommodations across India
                             </p>
-                            <div className="hero-stats fade-in">
+                            <div className="hero-stats fade-in" style={{ animationDelay: '0.2s' }}>
                                 <div className="stat-item">
+                                    <div className="stat-icon">🏠</div>
                                     <span className="stat-number">100+</span>
                                     <span className="stat-label">Properties Listed</span>
                                 </div>
                                 <div className="stat-item">
+                                    <div className="stat-icon">👥</div>
                                     <span className="stat-number">50+</span>
                                     <span className="stat-label">Happy Tenants</span>
                                 </div>
                                 <div className="stat-item">
+                                    <div className="stat-icon">📍</div>
                                     <span className="stat-number">10+</span>
                                     <span className="stat-label">Cities Covered</span>
                                 </div>
