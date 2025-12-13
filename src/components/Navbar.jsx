@@ -43,40 +43,52 @@ const Navbar = () => {
                     <div className="navbar-actions desktop-only">
                         <button
                             onClick={toggleTheme}
-                            className="btn btn-sm btn-outline theme-toggle-btn"
+                            className="btn-icon theme-toggle-btn"
                             title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
                         >
                             {theme === 'light' ? '🌙' : '☀️'}
                         </button>
-                        {isAuthenticated && <NotificationBell />}
-                        {isAuthenticated ? (
+
+                        {isAuthenticated && (
                             <>
-                                <Link to="/profile" className="user-info-link" title="View Profile">
-                                    <div className="user-info">
-                                        <span className="user-avatar">{user?.name?.charAt(0)}</span>
-                                        <span className="user-name">{user?.name}</span>
-                                    </div>
-                                </Link>
-                                <Link
-                                    to={isOwner ? "/owner/dashboard" : "/my-bookings"}
-                                    className="btn btn-sm btn-secondary"
-                                >
-                                    Dashboard
-                                </Link>
-                                {!isOwner && (
-                                    <Link to="/maintenance" className="btn btn-sm btn-outline" title="Maintenance Support">
-                                        🛠️
+                                <NotificationBell />
+                                <div className="nav-divider"></div>
+
+                                <div className="user-action-group">
+                                    <Link
+                                        to={isOwner ? "/owner/dashboard" : "/my-bookings"}
+                                        className="btn btn-sm btn-primary dashboard-btn"
+                                    >
+                                        Dashboard
                                     </Link>
-                                )}
-                                <button onClick={handleLogout} className="btn btn-sm btn-outline">
-                                    Logout
-                                </button>
+
+                                    {!isOwner && (
+                                        <Link to="/maintenance" className="btn-icon" title="Maintenance Support">
+                                            🛠️
+                                        </Link>
+                                    )}
+
+                                    <Link to="/profile" className="user-profile-pill" title="View Profile">
+                                        <div className="user-avatar-small">{user?.name?.charAt(0)}</div>
+                                        <span className="user-name-small">{user?.name?.split(' ')[0]}</span>
+                                    </Link>
+
+                                    <button
+                                        onClick={handleLogout}
+                                        className="btn-icon logout-btn-desktop"
+                                        title="Logout"
+                                    >
+                                        🔴
+                                    </button>
+                                </div>
                             </>
-                        ) : (
-                            <>
-                                <Link to="/login" className="btn btn-sm btn-outline">Login</Link>
-                                <Link to="/register" className="btn btn-sm btn-primary">Register</Link>
-                            </>
+                        )}
+
+                        {!isAuthenticated && (
+                            <div className="auth-buttons">
+                                <Link to="/login" className="nav-link-login">Login</Link>
+                                <Link to="/register" className="btn btn-primary register-btn">Register</Link>
+                            </div>
                         )}
                     </div>
                 </div>
