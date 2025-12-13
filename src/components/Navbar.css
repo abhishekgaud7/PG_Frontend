@@ -9,7 +9,7 @@
 }
 
 .floating-nav {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-radius: 50px;
@@ -18,9 +18,6 @@
     border: 1px solid rgba(255, 255, 255, 0.6);
     width: 100%;
     max-width: 1200px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 
 .navbar-container {
@@ -35,7 +32,8 @@
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 2.5rem;
+    gap: 3rem;
+    /* Prominent Spacing */
 }
 
 .navbar-logo {
@@ -76,14 +74,33 @@
     color: #64748b;
     font-weight: 600;
     font-size: 0.95rem;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
+    padding: 0.5rem 0;
+    position: relative;
 }
 
 .nav-link:hover {
-    color: #0ea5e9;
+    color: #2563eb;
 }
 
-/* Middle: Search Bar */
+/* Active Link Indicator */
+.nav-link.active {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 3px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2563eb;
+    border-radius: 10px;
+}
+
 /* Middle: Search Bar */
 .nav-search {
     display: flex;
@@ -95,21 +112,22 @@
 .search-bar {
     display: flex;
     align-items: center;
-    background: #f1f5f9;
+    background: #f8fafc;
     border-radius: 50px;
     padding: 0.25rem 0.25rem 0.25rem 1.25rem;
     width: 100%;
-    min-width: 320px;
-    max-width: 400px;
-    /* Slightly wider */
+    min-width: 250px;
+    max-width: 350px;
     transition: all 0.2s;
-    border: 1px solid transparent;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    /* Subtle Shadow */
 }
 
 .search-bar:focus-within {
     background: white;
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
-    border-color: rgba(14, 165, 233, 0.3);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+    border-color: #2563eb;
 }
 
 .search-bar input {
@@ -122,24 +140,23 @@
 }
 
 .search-btn {
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    background: #2563eb;
     border: none;
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1rem;
-    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
     color: white;
-    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3);
 }
 
 .search-btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.4);
+    background: #1d4ed8;
 }
 
 /* Right Section */
@@ -148,7 +165,7 @@
     align-items: center;
     justify-content: flex-end;
     /* Force right alignment */
-    gap: 0.75rem;
+    gap: 1rem;
 }
 
 .btn-icon {
@@ -216,19 +233,6 @@
     justify-content: center;
     font-weight: 600;
     color: #475569;
-}
-
-.logout-icon-small {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 0.8rem;
-    opacity: 0.6;
-    margin-left: -5px;
-}
-
-.logout-icon-small:hover {
-    opacity: 1;
 }
 
 /* Auth Buttons */

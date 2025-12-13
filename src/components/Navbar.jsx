@@ -10,6 +10,7 @@ const Navbar = () => {
     const { theme, toggleTheme } = useTheme();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
@@ -19,6 +20,10 @@ const Navbar = () => {
         logout();
         setMobileMenuOpen(false);
         navigate('/login');
+    };
+
+    const isActive = (path) => {
+        return location.pathname === path ? 'active' : '';
     };
 
     return (
@@ -35,9 +40,10 @@ const Navbar = () => {
                         </Link>
 
                         <div className="navbar-links desktop-only">
-                            <Link to="/properties" className="nav-link">Rent</Link>
-                            <Link to="/for-owners" className="nav-link">List Property</Link>
-                            <Link to="/about" className="nav-link">About</Link>
+                            <Link to="/" className={`nav-link ${isActive('/')}`}>Home</Link>
+                            <Link to="/properties" className={`nav-link ${isActive('/properties')}`}>Properties</Link>
+                            <Link to="/for-owners" className={`nav-link ${isActive('/for-owners')}`}>List Property</Link>
+                            <Link to="/about" className={`nav-link ${isActive('/about')}`}>About</Link>
                         </div>
                     </div>
 
@@ -63,9 +69,6 @@ const Navbar = () => {
 
                         {isAuthenticated ? (
                             <>
-                                <Link to={isOwner ? "/owner/dashboard" : "/my-bookings"} className="btn-icon" title="Dashboard">
-                                    {isOwner ? '📊' : '🔖'}
-                                </Link>
                                 <NotificationBell />
 
                                 <div className="nav-divider"></div>
@@ -77,10 +80,6 @@ const Navbar = () => {
                                     </div>
                                     <div className="user-avatar-circle">{user?.name?.charAt(0)}</div>
                                 </Link>
-
-                                <button onClick={handleLogout} className="logout-icon-small" title="Logout">
-                                    🔴
-                                </button>
                             </>
                         ) : (
                             <div className="auth-buttons">
@@ -107,8 +106,11 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
                     <div className="mobile-menu slide-down">
+                        <Link to="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                            Home
+                        </Link>
                         <Link to="/properties" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                            Rent
+                            Properties
                         </Link>
                         <Link to="/for-owners" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
                             List Property
