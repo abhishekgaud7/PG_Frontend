@@ -21,6 +21,27 @@
     font-size: 1.125rem;
 }
 
+.back-button {
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    color: var(--primary-dark);
+    transform: translateX(-4px);
+}
+
+
 /* Table View */
 .properties-table-container {
     background: var(--white);

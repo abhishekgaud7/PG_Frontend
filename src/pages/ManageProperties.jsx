@@ -63,6 +63,9 @@ const ManageProperties = () => {
             <div className="container">
                 <div className="page-header">
                     <div>
+                        <button onClick={() => navigate(-1)} className="back-button" title="Go back">
+                            ← Back
+                        </button>
                         <h1>Manage Properties</h1>
                         <p>View, edit, and manage all your listed properties</p>
                     </div>
