@@ -257,6 +257,12 @@ const PropertyDetails = () => {
                     {/* Booking Sidebar */}
                     <div className="booking-sidebar">
                         <div className="booking-card card">
+                            {/* Mock verified: even ID */}
+                            {parseInt(id) % 2 === 0 && (
+                                <div className="instant-book-badge">
+                                    <span>⚡ Instant Book Available</span>
+                                </div>
+                            )}
                             <h3>Book this property</h3>
 
                             {bookingSuccess ? (

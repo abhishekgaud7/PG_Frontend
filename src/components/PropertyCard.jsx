@@ -65,6 +65,12 @@ const PropertyCard = ({ property, showActions = false, onEdit, onDelete }) => {
                         <span className={`badge badge-${gender === 'Male' ? 'primary' : gender === 'Female' ? 'error' : 'secondary'}`}>
                             {gender === 'Male' ? 'Boys' : gender === 'Female' ? 'Girls' : 'Any'} {type}
                         </span>
+                        {/* Mock verified status: true if id is even */}
+                        {id % 2 === 0 && (
+                            <span className="badge badge-verified">
+                                <span className="verified-icon">✓</span> Verified
+                            </span>
+                        )}
                     </div>
                 </div>
 

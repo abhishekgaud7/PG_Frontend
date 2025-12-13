@@ -90,6 +90,7 @@
     color: var(--text-main);
     display: -webkit-box;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -126,6 +127,28 @@
 .amenity-tag.more {
     background: var(--bg-input);
     color: var(--text-muted);
+}
+
+.badge-verified {
+    background: linear-gradient(135deg, #FFD700 0%, #FDB931 100%);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.verified-icon {
+    font-size: 0.8em;
+    background: black;
+    color: gold;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .property-footer {
