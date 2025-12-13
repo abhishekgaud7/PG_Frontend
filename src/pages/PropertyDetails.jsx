@@ -162,6 +162,14 @@ const PropertyDetails = () => {
                                 <h1>{property.title}</h1>
                                 <p className="property-location">
                                     <span>📍</span> {property.address}, {property.city}
+                                    <a
+                                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${property.address}, ${property.city}`)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn-directions"
+                                    >
+                                        Get Directions ↗
+                                    </a>
                                 </p>
                                 <div className="property-meta">
                                     <span className={`badge badge-${property.gender === 'Male' ? 'primary' : property.gender === 'Female' ? 'error' : 'secondary'}`}>
