@@ -59,12 +59,23 @@ const Register = () => {
                 navigate('/properties');
             }
         } catch (err) {
+            console.error('Registration error:', err);
             // Handle validation errors from backend
-            const errorData = err.response?.data;
-            if (errorData?.errors && Array.isArray(errorData.errors)) {
-                setError(errorData.errors.join('. '));
+            if (err.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                const errorData = err.response.data;
+                if (errorData?.errors && Array.isArray(errorData.errors)) {
+                    setError(errorData.errors.join('. '));
+                } else {
+                    setError(errorData?.message || `Registration failed: ${err.response.status} ${err.response.statusText}`);
+                }
+            } else if (err.request) {
+                // The request was made but no response was received
+                setError('Network Error: No response received from server. Is the backend running?');
             } else {
-                setError(errorData?.message || 'Failed to register. Please try again.');
+                // Something happened in setting up the request that triggered an Error
+                setError('Error: ' + err.message);
             }
             setLoading(false);
         }
