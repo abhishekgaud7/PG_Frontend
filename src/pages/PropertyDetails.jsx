@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import BackButton from '../components/BackButton';
+import PropertyMap from '../components/PropertyMap';
 import client from '../api/client';
 import './PropertyDetails.css';
 
@@ -212,6 +213,12 @@ const PropertyDetails = () => {
                                 </div>
                             </div>
                         )}
+
+                        {/* Interactive Map */}
+                        <div className="property-section">
+                            <h2>Location</h2>
+                            <PropertyMap address={property.address} city={property.city} />
+                        </div>
 
                         {/* Additional Info */}
                         <div className="property-section">

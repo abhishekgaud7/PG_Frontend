@@ -1,0 +1,47 @@
+.property-map-container {
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    /* Ensure map stays below modals but above background */
+    margin-bottom: 2rem;
+}
+
+.map-loading,
+.map-error {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    /* Fallback */
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.btn-map-fallback {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-map-fallback:hover {
+    background-color: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+
+    .property-map-container,
+    .map-loading,
+    .map-error {
+        height: 300px;
+    }
+}
