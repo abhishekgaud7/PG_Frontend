@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import BackButton from '../components/BackButton';
 import client from '../api/client';
+import PropertyCard from '../components/PropertyCard';
+import MaintenanceWidget from '../components/MaintenanceWidget';
+import ScoreHistoryChart from '../components/ScoreHistoryChart';
 import './OwnerDashboard.css';
 
 const OwnerDashboard = () => {
@@ -116,6 +119,17 @@ const OwnerDashboard = () => {
                         <Link to="/owner/add-property" className="btn btn-primary">
                             + Add Property
                         </Link>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <MaintenanceWidget />
+                        <ScoreHistoryChart />
+                    </div>
+
+                    {/* Mock Risk Alert - Show if score was low */}
+                    <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong className="font-bold">Attention!</strong>
+                        <span className="block sm:inline"> Your Acceptance Rate is dropping. Respond faster to avoid booking limits.</span>
                     </div>
 
 

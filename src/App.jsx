@@ -21,6 +21,7 @@ import ManageProperties from './pages/ManageProperties';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Support from './pages/Support';
+import Maintenance from './pages/Maintenance';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -56,6 +57,16 @@ const AnimatedRoutes = () => {
             <PageTransition>
               <ProtectedRoute>
                 <MyBookings />
+              </ProtectedRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/maintenance"
+          element={
+            <PageTransition>
+              <ProtectedRoute>
+                <Maintenance />
               </ProtectedRoute>
             </PageTransition>
           }

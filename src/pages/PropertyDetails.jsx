@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import BackButton from '../components/BackButton';
 import PropertyMap from '../components/PropertyMap';
+import TrustScoreBreakdown from '../components/TrustScoreBreakdown';
 import client from '../api/client';
 import './PropertyDetails.css';
 
@@ -176,7 +177,10 @@ const PropertyDetails = () => {
                                     <span className={`badge badge-${property.gender === 'Male' ? 'primary' : property.gender === 'Female' ? 'error' : 'secondary'}`}>
                                         {property.gender === 'Male' ? 'Boys' : property.gender === 'Female' ? 'Girls' : 'Any'} {property.type}
                                     </span>
-                                    <span className="beds-info">🛏️ {property.availableBeds} beds available</span>
+                                    <p className="owner-rating">
+                                        ⭐ {property.owner?.rating || '4.8'} / 5.0
+                                        <TrustScoreBreakdown score={property.owner?.rating || 4.8} />
+                                    </p>
                                 </div>
                             </div>
                             <div className="property-price-large">
